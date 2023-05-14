@@ -1,0 +1,22 @@
+pipeline{
+ agent any
+ stages{
+
+ stage('Checkout'){
+ steps{
+ checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/kavinila05/kavinila--1.git']])
+ }
+ }
+
+ stage('Deploy'){
+
+ input{
+ message "Do you want to proceed for production deployment?"
+ }
+
+ steps{
+deploy adapters: [tomcat8(credentialsId: '8c3b0ab8-3061-473d-b101-eee96b8dc403', path: '', url: 'http://localhost:9090')], contextPath: 'project3', war: 'Calendar.war'
+ }
+ }
+}
+}
